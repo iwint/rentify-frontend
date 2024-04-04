@@ -15,9 +15,9 @@ import useLoginModal from "hooks/useLoginModal";
 
 type Props = {};
 
-const RegisterModal = (props: Props) => {
-  const registerModal = useRegisterModal();
+const LoginModal = (props: Props) => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -26,34 +26,25 @@ const RegisterModal = (props: Props) => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const registerUser = await POST_API("/register", data);
-    console.log(registerUser);
+    const loginUser = await POST_API("/sign-in", data);
+    console.log(loginUser);
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Header title={"Welcome to Redotel"} subtitle="Create an account" />
+      <Header title={"Welcome back!"} subtitle="Login to your account" />
       <Input
         disabled={isLoading}
         errors={errors}
         register={register}
         id="email"
         label="Email"
-        required
-      />
-      <Input
-        disabled={isLoading}
-        errors={errors}
-        register={register}
-        id="name"
-        label="Name"
         required
       />
       <Input
@@ -85,15 +76,15 @@ const RegisterModal = (props: Props) => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Already have an account?</div>
+          <div>Don't have an account ?</div>
           <div
             onClick={() => {
-              loginModal.onOpen();
-              registerModal.onClose();
+              registerModal.onOpen();
+              loginModal.onClose();
             }}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Log in
+            Register
           </div>
         </div>
       </div>
@@ -103,10 +94,10 @@ const RegisterModal = (props: Props) => {
   return (
     <Modal
       disabled={isLoading}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
-      isOpen={registerModal.isOpen}
+      onClose={loginModal.onClose}
+      isOpen={loginModal.isOpen}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -114,4 +105,4 @@ const RegisterModal = (props: Props) => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;
