@@ -3,7 +3,9 @@ import RegisterModal from "@components/modals/RegisterModal";
 import Navbar from "@components/navbar/Navbar";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import ToasterProvider from "providers/ToasterProvider";
 import "./globals.css";
+import LoginModal from "@components/modals/LoginModal";
 
 export const metadata: Metadata = {
   title: "Red hotel Booking App",
@@ -23,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ClientOnly>
+          <ToasterProvider />
           <RegisterModal />
+          <LoginModal />
           <Navbar />
         </ClientOnly>
         {children}
