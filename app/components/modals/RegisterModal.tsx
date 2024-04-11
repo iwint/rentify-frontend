@@ -33,8 +33,13 @@ const RegisterModal = (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const registerUser = await POST_API("/register", data);
-    console.log(registerUser);
+    await POST_API("auth/register", data)
+      .then(async (res: any) => {
+        await localStorage.setItem("token", res?.token);
+        toast.success("Registered successfully");
+      })
+      .catch((err) => console.log(err))
+      .finally(() => registerModal.onClose());
   };
 
   const bodyContent = (

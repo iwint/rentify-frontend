@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import Button from "@components/common/Button";
 import { POST_API } from "api/api";
 import useLoginModal from "hooks/useLoginModal";
+import { User } from "models/user";
 
 type Props = {};
 
@@ -32,8 +33,13 @@ const LoginModal = (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const loginUser = await POST_API("/sign-in", data);
-    console.log(loginUser);
+    await POST_API("auth/sign-in", data)
+      .then(async (res: any) => {
+        await localStorage.setItem("token", res?.token);
+        toast.success("Logged in successfully");
+      })
+      .catch((err) => console.log(err))
+      .finally(() => loginModal.onClose());
   };
 
   const bodyContent = (
