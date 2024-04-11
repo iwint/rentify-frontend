@@ -1,10 +1,22 @@
 import { trackPromise } from "react-promise-tracker"
-import { request } from "./request"
 import { Routes } from "./request.type"
+import axios from "axios"
+const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`
+const token = localStorage.getItem('token')
+
+const headers = {
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": '*',
+    'Accept': 'application/json',
+    Authorization: `Bearer ${token}`
+}
+
 
 export const GET_API = (endpoint: Routes) => {
     return trackPromise(new Promise((resolve, reject) => {
-        const response = request.get(endpoint).then(res => {
+        axios.get(`${BASE_URL}/${endpoint}`, {
+            headers: headers
+        }).then(res => {
             if (res.status === 201 || res.status === 200) {
                 resolve(res.data)
             } else {
@@ -14,10 +26,12 @@ export const GET_API = (endpoint: Routes) => {
     }))
 }
 
-export const POST_API = (endpoint: string, data: any) => {
+export const POST_API = async (endpoint: string, data: any) => {
     return trackPromise(new Promise((resolve, reject) => {
-        const response = request.post(endpoint, data).then(res => {
-            if (res.status === 201 || res.status === 200) {
+        axios.post(`${BASE_URL}/${endpoint}`, data, {
+            headers: headers
+        }).then(res => {
+            if (res.status === 200 || res.status === 201) {
                 resolve(res.data)
             } else {
                 reject(res)
@@ -28,7 +42,9 @@ export const POST_API = (endpoint: string, data: any) => {
 
 export const PUT_API = (endpoint: Routes, data: any) => {
     return trackPromise(new Promise((resolve, reject) => {
-        const response = request.post(endpoint, data).then(res => {
+        axios.put(`${BASE_URL}/${endpoint}`, data, {
+            headers: headers
+        }).then(res => {
             if (res.status === 201 || res.status === 200) {
                 resolve(res.data)
             } else {
@@ -40,7 +56,9 @@ export const PUT_API = (endpoint: Routes, data: any) => {
 
 export const DELETE_API = (endpoint: Routes) => {
     return trackPromise(new Promise((resolve, reject) => {
-        const response = request.delete(endpoint).then(res => {
+        axios.delete(`${BASE_URL}/${endpoint}`, {
+            headers: headers
+        }).then(res => {
             if (res.status === 201 || res.status === 200) {
                 resolve(res.data)
             } else {

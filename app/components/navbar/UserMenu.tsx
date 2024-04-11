@@ -15,7 +15,13 @@ const UserMenu = (props: Props) => {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+  const token = localStorage.getItem("token");
+  console.log(token);
 
+  const handleLogOut = async () => {
+    await localStorage.clear();
+    setIsOpen(false);
+  };
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
@@ -38,10 +44,22 @@ const UserMenu = (props: Props) => {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem label="Login" onClick={loginModal.onOpen} />
-              <MenuItem label="Sign up" onClick={registerModal.onOpen} />
-            </>
+            {token === null ? (
+              <>
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+              </>
+            ) : (
+              <>
+                <MenuItem label="My trips" onClick={() => {}} />
+                <MenuItem label="My favorites" onClick={() => {}} />
+                <MenuItem label="My reservations" onClick={() => {}} />
+                <MenuItem label="My properties" onClick={() => {}} />
+                <MenuItem label="Redotel my home" onClick={() => {}} />
+                <hr />
+                <MenuItem label="Logout" onClick={handleLogOut} />
+              </>
+            )}
           </div>
         </div>
       )}
