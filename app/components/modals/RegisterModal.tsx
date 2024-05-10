@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import Button from "@components/common/Button";
 import { POST_API } from "api/api";
 import useLoginModal from "hooks/useLoginModal";
+import { useGoogleLogin } from "@react-oauth/google";
 
 type Props = {};
 
@@ -19,6 +20,42 @@ const RegisterModal = (props: Props) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
+
+  const SIGN_IN_WITH_GOOGLE = useGoogleLogin({
+    onSuccess: (user) => handleGoogleLogin(user),
+    onError: (error) => console.log(error),
+  });
+
+  const handleGithubLogin = useCallback((data: any) => {
+    setIsLoading(true);
+    axios
+      .get("/auth/github")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const handleGoogleLogin = useCallback((data: any) => {
+    axios
+      .get(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${data.access_token}`
+      )
+      .then(async (res) => {
+        let payload = {
+          name: res.data.name,
+          email: res.data.email,
+          password: res.data.id,
+        };
+        await POST_API("auth/register", payload).then(async (res: any) => {
+          await localStorage.setItem("token", res?.token);
+          toast.success("Registered successfully");
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => registerModal.onClose());
+  }, []);
 
   const {
     register,
@@ -41,6 +78,11 @@ const RegisterModal = (props: Props) => {
       .catch((err) => console.log(err))
       .finally(() => registerModal.onClose());
   };
+
+  const toggleModal = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -80,7 +122,7 @@ const RegisterModal = (props: Props) => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => SIGN_IN_WITH_GOOGLE()}
       />
       <Button
         outline
@@ -92,10 +134,7 @@ const RegisterModal = (props: Props) => {
         <div className="justify-center flex flex-row items-center gap-2">
           <div>Already have an account?</div>
           <div
-            onClick={() => {
-              loginModal.onOpen();
-              registerModal.onClose();
-            }}
+            onClick={toggleModal}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
