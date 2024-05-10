@@ -3,15 +3,21 @@ import Avatar from "@components/common/Avatar";
 import React, { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import MenuItem from "./MenuItem";
+
+//custom-hooks
 import useRegisterModal from "hooks/useRegisterModal";
 import useLoginModal from "hooks/useLoginModal";
+import useRendModal from "hooks/useRentModal";
 
 interface Props {}
 
 const UserMenu = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRendModal();
+
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
@@ -22,11 +28,19 @@ const UserMenu = (props: Props) => {
     await localStorage.clear();
     setIsOpen(false);
   };
+
+  const onRent = useCallback(() => {
+    if (token === null) {
+      return loginModal.onOpen();
+    }
+    rentModal.onOpen();
+  }, [token, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Redotel your home
@@ -55,7 +69,7 @@ const UserMenu = (props: Props) => {
                 <MenuItem label="My favorites" onClick={() => {}} />
                 <MenuItem label="My reservations" onClick={() => {}} />
                 <MenuItem label="My properties" onClick={() => {}} />
-                <MenuItem label="Redotel my home" onClick={() => {}} />
+                <MenuItem label="Rent my home" onClick={onRent} />
                 <hr />
                 <MenuItem label="Logout" onClick={handleLogOut} />
               </>

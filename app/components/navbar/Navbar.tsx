@@ -5,6 +5,7 @@ import React from "react";
 import { Logo } from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import Categories from "./Categories";
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const Navbar = (props: Props) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </div>
   );
 };
