@@ -5,9 +5,16 @@ import useRendModal from "hooks/useRentModal";
 import Header from "@components/common/Header";
 import { categories } from "@components/navbar/Categories";
 import CategoryInput from "@components/inputs/CategoryInput";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
 import CountrySelect from "@components/inputs/CountrySelect";
 import dynamic from "next/dynamic";
+import Counter from "@components/inputs/Counter";
+import StepWrapper from "@components/common/StepWrapper";
+import ImageUpload from "@components/inputs/ImageUpload";
+import Input from "@components/inputs/Input";
+import { POST_API } from "api/api";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -21,10 +28,10 @@ enum STEPS {
 }
 
 const RentModal = (props: Props) => {
+  const router = useRouter();
   const rentModal = useRendModal();
-
   const [step, setStep] = React.useState(STEPS.CATEGORY);
-
+  const [isLoading, setIsLoading] = React.useState(false);
   const {
     register,
     handleSubmit,
@@ -39,7 +46,7 @@ const RentModal = (props: Props) => {
       guest_count: 1,
       room_count: 1,
       bathroom_count: 1,
-      image_src: "",
+      image_src: null,
       price: 1,
       title: "",
       description: "",
@@ -48,6 +55,11 @@ const RentModal = (props: Props) => {
 
   const category = watch("category");
   const location = watch("location");
+  const guestCount = watch("guest_count");
+  const bathroomCount = watch("bathroom_count");
+  const roomCount = watch("room_count");
+  const imageSrc = watch("image_src");
+
   const Map = useMemo(
     () =>
       dynamic(() => import("@components/common/Map"), {
@@ -71,6 +83,28 @@ const RentModal = (props: Props) => {
     setStep((value) => value + 1);
   };
 
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+    if (step != STEPS.PRICE) {
+      return onNext();
+    }
+    setIsLoading(true);
+    await POST_API("listings/dw", data)
+      .then((res: any) => {
+        console.log(res.data);
+        toast.success("Listing Created!");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
+      })
+      .catch((err) => {
+        toast.error("Error creating listing");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
       return "Create";
@@ -86,11 +120,7 @@ const RentModal = (props: Props) => {
   }, [step]);
 
   let bodyContent = (
-    <div className="flex flex-col gap-8">
-      <Header
-        title="Which of these best describes your place?"
-        subtitle="Pick a category that best fits your place"
-      />
+    <StepWrapper title="What type of place do you have?" subtitle="Select one">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
         {categories.map((item) => (
           <div className="col-span-1" key={item.label}>
@@ -103,22 +133,112 @@ const RentModal = (props: Props) => {
           </div>
         ))}
       </div>
-    </div>
+    </StepWrapper>
   );
 
   if (step === STEPS.LOCATION) {
     bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Header
-          title="Where is your place located?"
-          subtitle="Help guests find you"
-        />
+      <StepWrapper
+        title="Where is your place located?"
+        subtitle="Help guests find you"
+      >
         <CountrySelect
           onChange={(value) => setCustomValue("location", value)}
           value={location}
         />
         <Map center={location?.latlng} />
-      </div>
+      </StepWrapper>
+    );
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <StepWrapper
+        title="Share some basics about your place"
+        subtitle="What amenities do you have?"
+      >
+        <Counter
+          onChange={(value) => setCustomValue("guest_count", value)}
+          value={guestCount}
+          title="Number of guests"
+          subtitle="How many guests can your place accommodate?"
+        />
+        <hr />
+        <Counter
+          onChange={(value) => setCustomValue("room_count", value)}
+          value={roomCount}
+          title="Rooms"
+          subtitle="How many rooms do you have?"
+        />
+        <hr />
+        <Counter
+          onChange={(value) => setCustomValue("bathroom_count", value)}
+          value={bathroomCount}
+          title="Bathrooms"
+          subtitle="How many bathrooms do you have?"
+        />
+      </StepWrapper>
+    );
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <StepWrapper
+        title="Add a photo of your place"
+        subtitle="Show guests what your place looks like"
+      >
+        <ImageUpload
+          onChange={(value) => setCustomValue("image_src", value)}
+          value={imageSrc}
+        />
+      </StepWrapper>
+    );
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <StepWrapper
+        title="Describe your place"
+        subtitle="Tell guests about your place"
+      >
+        <Input
+          errors={errors}
+          id="title"
+          label="Title"
+          register={register}
+          disabled={isLoading}
+          required
+        />
+        <hr />
+        <Input
+          errors={errors}
+          id="description"
+          label="Description"
+          register={register}
+          disabled={isLoading}
+          required
+        />
+      </StepWrapper>
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <StepWrapper
+        title="Set your price"
+        subtitle="How much do you want to charge per night?"
+      >
+        <Input
+          errors={errors}
+          id="price"
+          label="price"
+          register={register}
+          disabled={isLoading}
+          required
+          type="number"
+          formatPrice
+        />
+      </StepWrapper>
     );
   }
 
@@ -129,7 +249,7 @@ const RentModal = (props: Props) => {
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      onSubmit={onNext}
+      onSubmit={handleSubmit(onSubmit)}
       title="Rent your home"
       body={bodyContent}
     />
