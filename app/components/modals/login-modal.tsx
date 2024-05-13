@@ -48,6 +48,7 @@ const LoginModal = (props: Props) => {
           password: res.data.id,
         };
         await POST_API("auth/sign-in", payload).then(async (res: any) => {
+          await localStorage.setItem("user_id", res?.user_id);
           await localStorage.setItem("token", res?.token);
           toast.success("Logged in successfully");
         });
@@ -59,6 +60,7 @@ const LoginModal = (props: Props) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     await POST_API("auth/sign-in", data)
       .then(async (res: any) => {
+        await localStorage.setItem("user_id", res?.user_id);
         await localStorage.setItem("token", res?.token);
         toast.success("Logged in successfully");
       })

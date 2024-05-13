@@ -49,6 +49,7 @@ const RegisterModal = (props: Props) => {
           password: res.data.id,
         };
         await POST_API("auth/register", payload).then(async (res: any) => {
+          await localStorage.setItem("user_id", res?.user_id);
           await localStorage.setItem("token", res?.token);
           toast.success("Registered successfully");
         });
@@ -73,6 +74,7 @@ const RegisterModal = (props: Props) => {
     await POST_API("auth/register", data)
       .then(async (res: any) => {
         await localStorage.setItem("token", res?.token);
+        await localStorage.setItem("user_id", res?.user_id);
         toast.success("Registered successfully");
       })
       .catch((err) => console.log(err))
