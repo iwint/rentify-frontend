@@ -1,18 +1,18 @@
 "use client";
 import { useCallback, useState } from "react";
-import Modal from "./Modal";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import useRegisterModal from "hooks/useRegisterModal";
+import useRegisterModal from "hooks/use-register-modal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
-import Header from "@components/common/Header";
-import Input from "@components/inputs/Input";
+import Header from "@components/common/header";
+import Input from "@components/inputs/input";
 import toast from "react-hot-toast";
-import Button from "@components/common/Button";
+import Button from "@components/common/button";
 import { POST_API } from "api/api";
-import useLoginModal from "hooks/useLoginModal";
+import useLoginModal from "hooks/use-login-modal";
 import { useGoogleLogin } from "@react-oauth/google";
+import Modal from "./modal";
 
 type Props = {};
 

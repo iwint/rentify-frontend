@@ -1,17 +1,17 @@
 "use client";
 import React, { useMemo } from "react";
-import Modal from "./Modal";
-import useRendModal from "hooks/useRentModal";
-import Header from "@components/common/Header";
-import { categories } from "@components/navbar/Categories";
-import CategoryInput from "@components/inputs/CategoryInput";
+import Modal from "./modal";
+import useRendModal from "hooks/use-rental-modal";
+import Header from "@components/common/header";
+import { categories } from "@components/navbar/categories";
+import CategoryInput from "@components/inputs/category-input";
 import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "@components/inputs/CountrySelect";
+import CountrySelect from "@components/inputs/country-select";
 import dynamic from "next/dynamic";
-import Counter from "@components/inputs/Counter";
-import StepWrapper from "@components/common/StepWrapper";
-import ImageUpload from "@components/inputs/ImageUpload";
-import Input from "@components/inputs/Input";
+import Counter from "@components/inputs/counter";
+import StepWrapper from "@components/common/step-wrapper";
+import ImageUpload from "@components/inputs/image-uplod";
+import Input from "@components/inputs/input";
 import { POST_API } from "api/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -62,7 +62,7 @@ const RentModal = (props: Props) => {
 
   const Map = useMemo(
     () =>
-      dynamic(() => import("@components/common/Map"), {
+      dynamic(() => import("@components/common/map"), {
         ssr: false,
       }),
     [location]
@@ -89,7 +89,7 @@ const RentModal = (props: Props) => {
       return onNext();
     }
     setIsLoading(true);
-    await POST_API("listings/dw", data)
+    await POST_API("listing", data)
       .then((res: any) => {
         console.log(res.data);
         toast.success("Listing Created!");

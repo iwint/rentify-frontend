@@ -11,6 +11,8 @@ const headers = {
     Authorization: `Bearer ${token}`
 }
 
+console.log(token);
+
 
 export const GET_API = (endpoint: Routes) => {
     return trackPromise(new Promise((resolve, reject) => {
@@ -29,7 +31,12 @@ export const GET_API = (endpoint: Routes) => {
 export const POST_API = async (endpoint: string, data: any) => {
     return trackPromise(new Promise((resolve, reject) => {
         axios.post(`${BASE_URL}/${endpoint}`, data, {
-            headers: headers
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": '*',
+                'Accept': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(res => {
             if (res.status === 200 || res.status === 201) {
                 resolve(res.data)
