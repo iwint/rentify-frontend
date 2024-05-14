@@ -8,7 +8,7 @@ import axios from "axios";
 import Header from "@components/common/header";
 import Input from "@components/inputs/input";
 import toast from "react-hot-toast";
-import Button from "@components/common/button";
+import Button from "@components/buttons/button";
 import { POST_API } from "api/api";
 import useLoginModal from "hooks/use-login-modal";
 import { useGoogleLogin } from "@react-oauth/google";

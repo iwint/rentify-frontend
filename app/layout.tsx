@@ -32,8 +32,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <ClientOnly>
-          <Providers>
+        <Providers>
+          <ClientOnly>
             <GoogleOAuthProvider clientId={clientId}>
               <ToasterProvider />
               <RegisterModal />
@@ -41,9 +41,9 @@ export default function RootLayout({
               <LoginModal />
               <Navbar />
             </GoogleOAuthProvider>
-          </Providers>
-        </ClientOnly>
-        <div className="pb-20 pt-28">{children}</div>
+          </ClientOnly>
+          <div className="pb-20 pt-28">{children}</div>
+        </Providers>
       </body>
     </html>
   );
