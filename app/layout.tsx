@@ -5,6 +5,7 @@ import { Nunito } from "next/font/google";
 import ToasterProvider from "providers/toast-provider";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Providers from "providers/query-provider";
 
 //Modals
 import RegisterModal from "@components/modals/register-modal";
@@ -27,19 +28,22 @@ export default function RootLayout({
 }>) {
   const clientId =
     "748501748744-8qk3prgr8bd9rasi26t5t212rqki4lsa.apps.googleusercontent.com";
+
   return (
     <html lang="en">
       <body className={font.className}>
         <ClientOnly>
-          <GoogleOAuthProvider clientId={clientId}>
-            <ToasterProvider />
-            <RegisterModal />
-            <RentModal />
-            <LoginModal />
-            <Navbar />
-          </GoogleOAuthProvider>
+          <Providers>
+            <GoogleOAuthProvider clientId={clientId}>
+              <ToasterProvider />
+              <RegisterModal />
+              <RentModal />
+              <LoginModal />
+              <Navbar />
+            </GoogleOAuthProvider>
+          </Providers>
         </ClientOnly>
-        {children}
+        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );

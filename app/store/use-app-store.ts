@@ -1,16 +1,36 @@
-import { User } from "models/user";
-import { create } from "zustand";
+"use client"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { GET_API, POST_API } from "api/api";
+import { Routes } from "api/request.type";
 
-
-
-interface useAppStoreProps {
-    user: User | null;
-    setUser: (user: any) => void;
-    logout: () => void;
+const useGetAllData = (endpoint: Routes, key: string) => {
+    return useQuery({
+        queryKey: [key],
+        queryFn: () => GET_API(endpoint).then(res => {
+            return res;
+        }),
+    });
 }
 
-export const useAppStore = create<useAppStoreProps>((set, get) => ({
-    user: {} as User,
-    setUser: (user) => set({ user: user }),
-    logout: () => set({ user: null })
-}))
+const useAddData = (endpoint: Routes, key: string, data: any) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async () => {
+            const res = await POST_API(endpoint, data).then(res => res)
+            return res
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [key]
+            })
+        }
+    })
+}
+
+
+
+
+export {
+    useGetAllData,
+    useAddData
+}

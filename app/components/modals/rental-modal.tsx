@@ -15,7 +15,6 @@ import Input from "@components/inputs/input";
 import { POST_API } from "api/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useAppStore } from "store/use-app-store";
 
 type Props = {};
 
@@ -33,7 +32,7 @@ const RentModal = (props: Props) => {
   const rentModal = useRendModal();
   const [step, setStep] = React.useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = React.useState(false);
-
+  
   const {
     register,
     handleSubmit,
@@ -96,7 +95,7 @@ const RentModal = (props: Props) => {
       return onNext();
     }
     setIsLoading(true);
-    await POST_API("listing", payload)
+    await POST_API("listings", payload)
       .then((res: any) => {
         console.log(res.data);
         toast.success("Listing Created!");

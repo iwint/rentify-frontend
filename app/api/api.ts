@@ -1,3 +1,4 @@
+"use client"
 import { trackPromise } from "react-promise-tracker"
 import { Routes } from "./request.type"
 import axios from "axios"
