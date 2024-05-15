@@ -1,13 +1,11 @@
 "use client";
-import React, { useCallback, useMemo } from "react";
+import Button from "@components/buttons/button";
+import HeartButton from "@components/buttons/heart-button";
+import { format } from "date-fns";
+import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
-import useCountries from "hooks/use-countries";
-import { format } from "date-fns";
-import Image from "next/image";
-import HeartButton from "@components/buttons/heart-button";
-import Button from "@components/buttons/button";
-import { Listing } from "models/listing";
+import React, { useCallback, useMemo } from "react";
 
 interface ListingCardProps {
   currentUser?: User | null;

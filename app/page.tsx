@@ -1,15 +1,10 @@
 import Listings from "@components/listings/listings";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import QueryPageProvider from "providers/query-page-provider";
 
 export default async function Home() {
-  const queryClient = new QueryClient();
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <QueryPageProvider>
       <Listings />
-    </HydrationBoundary>
+    </QueryPageProvider>
   );
 }
