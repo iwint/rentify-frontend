@@ -46,7 +46,7 @@ export const POST_API = async (endpoint: string, data: any) => {
     }))
 }
 
-export const PUT_API = async (endpoint: Routes, data: any) => {
+export const PUT_API = async (endpoint: Routes, data?: any) => {
     const token = await localStorage.getItem('token')
     return trackPromise(new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/${endpoint}`, data, {

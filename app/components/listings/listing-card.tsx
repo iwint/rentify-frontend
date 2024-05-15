@@ -7,15 +7,17 @@ import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "@components/buttons/heart-button";
 import Button from "@components/buttons/button";
+import { Listing } from "models/listing";
 
 interface ListingCardProps {
   currentUser?: User | null;
-  data?: any;
+  data: Listing;
   reservation?: any;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
+  refetchUser?: () => void;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -26,9 +28,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   onAction,
   reservation,
+  refetchUser,
 }) => {
   const router = useRouter();
-  const { getByValue } = useCountries();
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,8 +45,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
     if (reservation) {
       return reservation.total_price;
     }
-    return data.price;
-  }, [reservation, data.price]);
+    return data?.price;
+  }, [reservation, data?.price]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -57,7 +59,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div
-      onClick={() => router.push(`/listing/${data.listing_id}`)}
+      onClick={() => router.push(`/listing/${data?.listing_id}`)}
       className="
         col-span-1 
         cursor-pointer
@@ -67,14 +69,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
       <div className="flex flex-col gap-2 w-full">
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
           <img
-            src={data.image_src}
+            src={data?.image_src}
             alt="listing image"
             className=" object-cover h-full w-full group-hover:scale-110 transition"
           />
           <div className="absolute top-3 right-3">
             <HeartButton
-              listingId={data.listing_id}
+              listingId={data?.listing_id}
               currentUser={currentUser}
+              refetchUser={refetchUser}
             />
           </div>
         </div>

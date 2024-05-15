@@ -4,7 +4,6 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { GET_API } from "api/api";
 
 export default async function Home() {
   const queryClient = new QueryClient();

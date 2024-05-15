@@ -11,8 +11,12 @@ import { User } from "models/user";
 type Props = {};
 
 const Listings = (props: Props) => {
+  const {
+    data: user,
+    refetch: refetchUser,
+    isError,
+  } = useGetAllData("user", "user");
   const listings = useGetAllData("listings", "listings");
-  const user = useGetAllData("auth/user", "user");
   const data = listings.data as Array<any>;
 
   if (listings.isError || listings.data === undefined || data?.length === 0) {
@@ -30,8 +34,9 @@ const Listings = (props: Props) => {
           {data?.map((item) => (
             <ListingCard
               key={item?.lisiting_id}
-              currentUser={user.isError ? null : (user.data as User)}
+              currentUser={isError ? null : (user as User)}
               data={item}
+              refetchUser={refetchUser}
             />
           ))}
         </div>
