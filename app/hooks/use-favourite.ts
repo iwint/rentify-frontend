@@ -3,18 +3,23 @@ import { User } from "models/user";
 import { useCallback, useMemo } from "react";
 import toast from "react-hot-toast";
 import useLoginModal from "./use-login-modal";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface useFavouriteProps {
     currentUser?: User | null;
     listingId: string;
-    refetchUser?: () => void;
 }
 
 const useFavourite = ({
     listingId,
     currentUser,
-    refetchUser
 }: useFavouriteProps) => {
+    const query = useQueryClient().getQueryCache();
+    const refetchUser = () =>
+        query
+            .find({
+                queryKey: ["user"],
+            })?.observers[0]?.refetch();
 
     const loginModal = useLoginModal();
     const hasFavourited = useMemo(() => {
@@ -42,7 +47,7 @@ const useFavourite = ({
                     ];
                 }
                 await localStorage.setItem("user", JSON.stringify(updatedUser));
-                await refetchUser?.();
+                await refetchUser();
             }
         } catch (e) {
             toast.error("An error occurred");

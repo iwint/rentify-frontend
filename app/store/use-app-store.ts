@@ -6,7 +6,9 @@ const useGetAllData = (endpoint: Routes, key: string) => {
     return useQuery({
         queryKey: [key],
         queryFn: async () => await GET_API(endpoint),
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: true,
+        staleTime: 30000,
+        gcTime: 60000
     });
 }
 

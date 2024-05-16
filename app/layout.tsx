@@ -11,6 +11,7 @@ import Providers from "providers/query-provider";
 import RegisterModal from "@components/modals/register-modal";
 import LoginModal from "@components/modals/login-modal";
 import RentModal from "@components/modals/rental-modal";
+import QueryPageProvider from "providers/query-page-provider";
 
 export const metadata: Metadata = {
   title: "Red hotel Booking App",
@@ -42,7 +43,9 @@ export default function RootLayout({
               <Navbar />
             </GoogleOAuthProvider>
           </ClientOnly>
-          <div className="pb-20 pt-28">{children}</div>
+          <QueryPageProvider>
+            <div className="pb-20 pt-28">{children}</div>
+          </QueryPageProvider>
         </Providers>
       </body>
     </html>

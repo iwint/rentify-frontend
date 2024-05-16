@@ -1,4 +1,5 @@
 "use client";
+import { useQueryClient } from "@tanstack/react-query";
 import useFavourite from "hooks/use-favourite";
 import { User } from "models/user";
 import React from "react";
@@ -7,18 +8,15 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 interface HeartButtonProps {
   currentUser?: User | null;
   listingId: string;
-  refetchUser?: () => void;
 }
 
 const HeartButton: React.FC<HeartButtonProps> = ({
   listingId,
   currentUser,
-  refetchUser,
 }) => {
   const { hasFavourited, toggleFavourite } = useFavourite({
     listingId,
     currentUser,
-    refetchUser,
   });
 
   return (

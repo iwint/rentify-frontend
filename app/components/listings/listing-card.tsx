@@ -15,7 +15,6 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  refetchUser?: () => void;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -26,7 +25,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   onAction,
   reservation,
-  refetchUser,
 }) => {
   const router = useRouter();
 
@@ -75,7 +73,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <HeartButton
               listingId={data?.listing_id}
               currentUser={currentUser}
-              refetchUser={refetchUser}
             />
           </div>
         </div>
