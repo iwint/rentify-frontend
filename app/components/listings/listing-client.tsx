@@ -1,14 +1,16 @@
 "use client";
 import Container from "@components/common/container";
 import { categories } from "@components/navbar/categories";
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
+import useLoginModal from "hooks/use-login-modal";
 import { Listing } from "models/listing";
 import { User } from "models/user";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import ListingHeader from "./listing-header";
-import ListingInfo from "./lisiting-info";
-import useLoginModal from "hooks/use-login-modal";
 import { useRouter } from "next/navigation";
-import { differenceInDays, eachDayOfInterval } from "date-fns";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useAddData } from "store/use-app-store";
+import ListingInfo from "./lisiting-info";
+import ListingHeader from "./listing-header";
+import ListingReservation from "./listing-reservation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -51,7 +53,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
     if (!currentUser) {
       loginModal.onOpen();
     }
-    setIsLoading(true);
+    const payload = {
+      listing_id: listing.listing_id,
+      start_date: dateRange.startDate,
+      end_date: dateRange.endDate,
+      total_price: totalPrice,
+    };
+    useAddData("reservation", "reservation", payload);
   }, [
     totalPrice,
     dateRange,
@@ -67,7 +75,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
+      const dayCount = differenceInCalendarDays(
+        dateRange.endDate,
+        dateRange.startDate
+      );
       if (dayCount && listing.price) {
         setTotalPrice(dayCount * parseInt(listing.price));
       } else {
@@ -97,6 +108,17 @@ const ListingClient: React.FC<ListingClientProps> = ({
               bathroomCount={listing.bathroom_count}
               location={listing.location}
             />
+            <div className="order-first mb-10 md:order-last md:col-span-3">
+              <ListingReservation
+                price={parseInt(listing.price)}
+                totalPrice={totalPrice}
+                onChangeDateRange={(value) => setDateRange(value)}
+                dateRange={dateRange}
+                onSubmit={onCreateReservation}
+                disabled={isLoading}
+                disabledDates={disabledDates}
+              />
+            </div>
           </div>
         </div>
       </div>
