@@ -14,9 +14,9 @@ interface ListingHeaderProps {
 
 const ListingHeader: React.FC<ListingHeaderProps> = ({
   id,
+  title,
   imageSrc,
   location,
-  title,
   currentUser,
 }) => {
   return (

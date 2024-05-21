@@ -7,10 +7,12 @@ import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useAddData } from "store/use-app-store";
+import { useAppStore } from "store/use-app-store";
 import ListingInfo from "./lisiting-info";
 import ListingHeader from "./listing-header";
 import ListingReservation from "./listing-reservation";
+import { Range } from "react-date-range";
+import { POST_API } from "api/api";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -31,6 +33,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   currentUser,
   reservations = [],
 }) => {
+  const { useAddData } = useAppStore();
   const loginModal = useLoginModal();
   const router = useRouter();
   const disabledDates = useMemo(() => {
@@ -47,7 +50,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(parseInt(listing.price));
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {
@@ -59,7 +62,15 @@ const ListingClient: React.FC<ListingClientProps> = ({
       end_date: dateRange.endDate,
       total_price: totalPrice,
     };
-    useAddData("reservation", "reservation", payload);
+    const response = POST_API("reservations", payload);
+    response
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
   }, [
     totalPrice,
     dateRange,
@@ -85,7 +96,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         setTotalPrice(parseInt(listing.price));
       }
     }
-  }, []);
+  }, [dateRange, listing.price]);
 
   return (
     <Container>

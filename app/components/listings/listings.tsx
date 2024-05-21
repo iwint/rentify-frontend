@@ -4,7 +4,7 @@ import ClientOnly from "@components/client-only";
 import Container from "@components/common/container";
 import EmptyState from "@components/common/empty-state";
 import React from "react";
-import { useGetAllData } from "store/use-app-store";
+import { useAppStore } from "store/use-app-store";
 import ListingCard from "./listing-card";
 import { User } from "models/user";
 import { Listing } from "models/listing";
@@ -12,6 +12,7 @@ import { Listing } from "models/listing";
 type Props = {};
 
 const Listings = (props: Props) => {
+  const { useGetAllData } = useAppStore();
   const { data: user, isError } = useGetAllData("user", "user");
   const listings = useGetAllData("listings", "listings");
   const data = listings.data as Array<Listing>;
