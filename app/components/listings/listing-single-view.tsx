@@ -15,6 +15,11 @@ const ListingSingleView = () => {
     listingId.toString()
   );
 
+  const { data: reservationDetails, isError: reservationError } = useGetAllData(
+    `reservations/listing/${listingId}`,
+    "reservations"
+  );
+
   if (isError || isLoading) {
     return (
       <ClientOnly>
@@ -25,7 +30,13 @@ const ListingSingleView = () => {
 
   return (
     <ClientOnly>
-      <ListingClient listing={data as any} currentUser={userDetails as User} />
+      <ListingClient
+        reservations={
+          reservationDetails != null ? (reservationDetails as Array<any>) : []
+        }
+        listing={data as any}
+        currentUser={userDetails as User}
+      />
     </ClientOnly>
   );
 };

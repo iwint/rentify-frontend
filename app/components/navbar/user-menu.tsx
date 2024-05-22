@@ -8,12 +8,13 @@ import MenuItem from "./menu-item";
 import useRegisterModal from "hooks/use-register-modal";
 import useLoginModal from "hooks/use-login-modal";
 import useRendModal from "hooks/use-rental-modal";
+import { useRouter } from "next/navigation";
 
 interface Props {}
 
 const UserMenu = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const rentModal = useRendModal();
@@ -65,10 +66,22 @@ const UserMenu = (props: Props) => {
               </>
             ) : (
               <>
-                <MenuItem label="My trips" onClick={() => {}} />
-                <MenuItem label="My favorites" onClick={() => {}} />
-                <MenuItem label="My reservations" onClick={() => {}} />
-                <MenuItem label="My properties" onClick={() => {}} />
+                <MenuItem
+                  label="My trips"
+                  onClick={() => router.push("/trips")}
+                />
+                <MenuItem
+                  label="My favorites"
+                  onClick={() => router.push("/favourites")}
+                />
+                <MenuItem
+                  label="My reservations"
+                  onClick={() => router.push("/reservations")}
+                />
+                <MenuItem
+                  label="My properties"
+                  onClick={() => router.push("/properties")}
+                />
                 <MenuItem label="Rent my home" onClick={onRent} />
                 <hr />
                 <MenuItem label="Logout" onClick={handleLogOut} />

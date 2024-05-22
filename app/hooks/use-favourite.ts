@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import toast from "react-hot-toast";
 import useLoginModal from "./use-login-modal";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAppStore } from "store/use-app-store";
 
 interface useFavouriteProps {
     currentUser?: User | null;
@@ -15,11 +16,8 @@ const useFavourite = ({
     currentUser,
 }: useFavouriteProps) => {
     const query = useQueryClient().getQueryCache();
-    const refetchUser = () =>
-        query
-            .find({
-                queryKey: ["user"],
-            })?.observers[0]?.refetch();
+    const { useGetAllData } = useAppStore()
+    const { refetch: refetchUser } = useGetAllData("user", "user");
 
     const loginModal = useLoginModal();
     const hasFavourited = useMemo(() => {

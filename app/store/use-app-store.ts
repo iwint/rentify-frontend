@@ -1,3 +1,4 @@
+'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GET_API, POST_API, PUT_API } from "api/api";
 import { Routes } from "api/request.type";

@@ -119,7 +119,7 @@ const RegisterModal = (props: Props) => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
+      {/* <hr />
       <Button
         outline
         label="Continue with Google"
@@ -131,7 +131,7 @@ const RegisterModal = (props: Props) => {
         label="Continue with Github"
         icon={AiFillGithub}
         onClick={() => {}}
-      />
+      /> */}
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
           <div>Already have an account?</div>

@@ -78,7 +78,7 @@ export const DELETE_API = async (endpoint: Routes) => {
             }
         }).then(res => {
             if (res.status === 201 || res.status === 200) {
-                resolve(res.data)
+                resolve(res)
             } else {
                 reject(res)
             }

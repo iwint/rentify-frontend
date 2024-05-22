@@ -1,18 +1,19 @@
 "use client";
 import Container from "@components/common/container";
 import { categories } from "@components/navbar/categories";
+import { POST_API } from "api/api";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import useLoginModal from "hooks/use-login-modal";
 import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Range } from "react-date-range";
+import toast from "react-hot-toast";
 import { useAppStore } from "store/use-app-store";
 import ListingInfo from "./lisiting-info";
 import ListingHeader from "./listing-header";
 import ListingReservation from "./listing-reservation";
-import { Range } from "react-date-range";
-import { POST_API } from "api/api";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -33,15 +34,15 @@ const ListingClient: React.FC<ListingClientProps> = ({
   currentUser,
   reservations = [],
 }) => {
-  const { useAddData } = useAppStore();
   const loginModal = useLoginModal();
   const router = useRouter();
+
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
-    reservations.forEach((reservations) => {
+    reservations.forEach((reservation) => {
       const range = eachDayOfInterval({
-        start: new Date(reservations.startDate),
-        end: new Date(reservations.endDate),
+        start: new Date(reservation.start_date),
+        end: new Date(reservation.end_date),
       });
       dates = [...dates, ...range];
     });
@@ -65,10 +66,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
     const response = POST_API("reservations", payload);
     response
       .then((res) => {
-        console.log(res);
+        toast.success("Reservation created successfully");
+        router.push("/trips");
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Failed to create reservation");
       })
       .finally(() => {});
   }, [

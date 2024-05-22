@@ -1,0 +1,52 @@
+"use client";
+
+import ClientOnly from "@components/client-only";
+import Container from "@components/common/container";
+import EmptyState from "@components/common/empty-state";
+import Header from "@components/common/header";
+import ListingCard from "@components/listings/listing-card";
+import { Listing } from "models/listing";
+import { User } from "models/user";
+import React, { useEffect } from "react";
+import { useAppStore } from "store/use-app-store";
+
+interface FavouritesClientProps {}
+
+const FavouritesClient: React.FC<FavouritesClientProps> = ({}) => {
+  const { useGetAllData } = useAppStore();
+  const { data: favourites, refetch } = useGetAllData(
+    "user/favourites",
+    "favourites"
+  );
+  const { data: currentUser } = useGetAllData("user", "user");
+
+  useEffect(() => {
+    refetch();
+  }, [currentUser]);
+
+  if ((favourites as Array<Listing>)?.length === 0 || !favourites) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          subtitle="You haven't added any favourites yet."
+          title="No Favourites"
+        />
+      </ClientOnly>
+    );
+  }
+
+  return (
+    <ClientOnly>
+      <Container>
+        <Header title="Favourites" subtitle="Your favourite listings." />
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
+          {(favourites as Array<Listing>)?.map((listing) => (
+            <ListingCard data={listing} currentUser={currentUser as User} />
+          ))}
+        </div>
+      </Container>
+    </ClientOnly>
+  );
+};
+
+export default FavouritesClient;
