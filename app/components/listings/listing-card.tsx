@@ -1,13 +1,14 @@
 "use client";
-import Button from "@components/buttons/button";
-import HeartButton from "@components/buttons/heart-button";
+
+import useRendModal from "@/app/hooks/use-rental-modal";
+import { Listing } from "@/app/models/listing";
+import { User } from "@/app/models/user";
 import { format } from "date-fns";
-import useRendModal from "hooks/use-rental-modal";
-import { Listing } from "models/listing";
-import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import { MdOutlineEdit } from "react-icons/md";
+import HeartButton from "../buttons/heart-button";
+import Button from "../buttons/button";
 
 interface ListingCardProps {
   currentUser?: User | null;

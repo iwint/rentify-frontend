@@ -1,19 +1,18 @@
 "use client";
-import Container from "@components/common/container";
-import { categories } from "@components/navbar/categories";
-import { POST_API } from "api/api";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import useLoginModal from "hooks/use-login-modal";
-import { Listing } from "models/listing";
-import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import toast from "react-hot-toast";
-import { useAppStore } from "store/use-app-store";
 import ListingInfo from "./lisiting-info";
 import ListingHeader from "./listing-header";
 import ListingReservation from "./listing-reservation";
+import { Listing } from "@/app/models/listing";
+import { User } from "@/app/models/user";
+import useLoginModal from "@/app/hooks/use-login-modal";
+import { POST_API } from "@/app/api/api";
+import { categories } from "../navbar/categories";
+import Container from "../common/container";
 
 const initialDateRange = {
   startDate: new Date(),

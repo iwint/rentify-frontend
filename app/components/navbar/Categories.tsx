@@ -1,6 +1,5 @@
 "use client";
-import CategoryBox from "@components/common/category-box";
-import Container from "@components/common/container";
+
 import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
 import { BsSnow } from "react-icons/bs";
@@ -18,6 +17,8 @@ import {
 import { IoDiamond } from "react-icons/io5";
 import { MdOutlineVilla } from "react-icons/md";
 import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
+import Container from "../common/container";
+import CategoryBox from "../common/category-box";
 
 type Props = {};
 

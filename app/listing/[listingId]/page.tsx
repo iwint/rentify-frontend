@@ -1,5 +1,4 @@
-import ListingSingleView from "@components/listings/listing-single-view";
-import QueryPageProvider from "providers/query-page-provider";
+import ListingSingleView from "@/app/components/listings/listing-single-view";
 import React from "react";
 
 const ListingPage = () => {

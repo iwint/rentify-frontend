@@ -1,17 +1,17 @@
 "use client";
-import Header from "@components/common/header";
-import Input from "@components/inputs/input";
 import { useGoogleLogin } from "@react-oauth/google";
-import { POST_API } from "api/api";
 import axios from "axios";
-import useLoginModal from "hooks/use-login-modal";
-import useRegisterModal from "hooks/use-register-modal";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Modal from "./modal";
-import RadioButtonSelect from "@components/inputs/radio-button-select";
 import { useRouter } from "next/navigation";
+import useRegisterModal from "@/app/hooks/use-register-modal";
+import useLoginModal from "@/app/hooks/use-login-modal";
+import { POST_API } from "@/app/api/api";
+import Header from "../common/header";
+import Input from "../inputs/input";
+import RadioButtonSelect from "../inputs/radio-button-select";
 
 type Props = {};
 

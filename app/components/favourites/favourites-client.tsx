@@ -1,14 +1,14 @@
 "use client";
 
-import ClientOnly from "@components/client-only";
-import Container from "@components/common/container";
-import EmptyState from "@components/common/empty-state";
-import Header from "@components/common/header";
-import ListingCard from "@components/listings/listing-card";
-import { Listing } from "models/listing";
-import { User } from "models/user";
+import { Listing } from "@/app/models/listing";
+import { useAppStore } from "@/app/store/use-app-store";
 import React, { useEffect } from "react";
-import { useAppStore } from "store/use-app-store";
+import ClientOnly from "../client-only";
+import EmptyState from "../common/empty-state";
+import Container from "../common/container";
+import Header from "../common/header";
+import ListingCard from "../listings/listing-card";
+import { User } from "@/app/models/user";
 
 interface FavouritesClientProps {}
 

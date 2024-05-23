@@ -1,7 +1,6 @@
 "use client";
-import { useQueryClient } from "@tanstack/react-query";
-import useFavourite from "hooks/use-favourite";
-import { User } from "models/user";
+import useFavourite from "@/app/hooks/use-favourite";
+import { User } from "@/app/models/user";
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 

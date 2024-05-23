@@ -1,22 +1,21 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Modal from "./modal";
-import useRendModal from "hooks/use-rental-modal";
-import Header from "@components/common/header";
-import { categories } from "@components/navbar/categories";
-import CategoryInput from "@components/inputs/category-input";
-import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "@components/inputs/country-select";
+
 import dynamic from "next/dynamic";
-import Counter from "@components/inputs/counter";
-import StepWrapper from "@components/common/step-wrapper";
-import ImageUpload from "@components/inputs/image-uplod";
-import Input from "@components/inputs/input";
-import { POST_API, PUT_API } from "api/api";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Listing } from "models/listing";
-import { useAppStore } from "store/use-app-store";
+import React, { useCallback, useMemo } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import Modal from "./modal";
+import useRendModal from "@/app/hooks/use-rental-modal";
+import { useAppStore } from "@/app/store/use-app-store";
+import { POST_API, PUT_API } from "@/app/api/api";
+import StepWrapper from "../common/step-wrapper";
+import { categories } from "../navbar/categories";
+import CategoryInput from "../inputs/category-input";
+import CountrySelect from "../inputs/country-select";
+import Counter from "../inputs/counter";
+import ImageUpload from "../inputs/image-uplod";
+import Input from "../inputs/input";
 
 type Props = {};
 
@@ -74,7 +73,7 @@ const RentModal = (props: Props) => {
 
   const Map = useMemo(
     () =>
-      dynamic(() => import("@components/common/map"), {
+      dynamic(() => import("../common/map"), {
         ssr: false,
       }),
     [location]
