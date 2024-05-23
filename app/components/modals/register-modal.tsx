@@ -1,18 +1,17 @@
 "use client";
-import { useCallback, useState } from "react";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import useRegisterModal from "hooks/use-register-modal";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
 import Header from "@components/common/header";
 import Input from "@components/inputs/input";
-import toast from "react-hot-toast";
-import Button from "@components/buttons/button";
-import { POST_API } from "api/api";
-import useLoginModal from "hooks/use-login-modal";
 import { useGoogleLogin } from "@react-oauth/google";
+import { POST_API } from "api/api";
+import axios from "axios";
+import useLoginModal from "hooks/use-login-modal";
+import useRegisterModal from "hooks/use-register-modal";
+import { useCallback, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import Modal from "./modal";
+import RadioButtonSelect from "@components/inputs/radio-button-select";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -20,7 +19,7 @@ const RegisterModal = (props: Props) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const SIGN_IN_WITH_GOOGLE = useGoogleLogin({
     onSuccess: (user) => handleGoogleLogin(user),
     onError: (error) => console.log(error),
@@ -67,6 +66,7 @@ const RegisterModal = (props: Props) => {
       name: "",
       email: "",
       password: "",
+      role: "user",
     },
   });
 
@@ -76,6 +76,10 @@ const RegisterModal = (props: Props) => {
         await localStorage.setItem("token", res?.token);
         await localStorage.setItem("user_id", res?.user_id);
         toast.success("Registered successfully");
+        if (res?.role === "admin") {
+          router.push("/properties");
+          loginModal.onClose();
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => registerModal.onClose());
@@ -112,6 +116,23 @@ const RegisterModal = (props: Props) => {
         type="password"
         id="password"
         label="Password"
+        required
+      />
+      <RadioButtonSelect
+        errors={errors}
+        id="role"
+        label="Role"
+        options={[
+          {
+            value: "user",
+            label: "User",
+          },
+          {
+            value: "admin",
+            label: "Admin",
+          },
+        ]}
+        register={register}
         required
       />
     </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import Button from "@components/buttons/button";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { use, useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useAppStore } from "store/use-app-store";
 
 interface ModalProps {
   isOpen?: boolean;
@@ -30,6 +31,8 @@ const Modal: React.FC<ModalProps> = ({
   title,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
+  const { useGetAllData } = useAppStore();
+  const { refetch } = useGetAllData("user", "user");
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
@@ -50,6 +53,7 @@ const Modal: React.FC<ModalProps> = ({
       return;
     }
     onSubmit();
+    refetch();
   }, [disabled, onSubmit]);
 
   const handleSecondaryAction = useCallback(() => {

@@ -7,4 +7,5 @@ export interface User {
     favorite_ids: Array<any>,
     accounts: Array<any>,
     token: string
+    role: 'user' | 'admin'
 }

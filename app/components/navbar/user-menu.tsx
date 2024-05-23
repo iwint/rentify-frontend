@@ -9,6 +9,8 @@ import useRegisterModal from "hooks/use-register-modal";
 import useLoginModal from "hooks/use-login-modal";
 import useRendModal from "hooks/use-rental-modal";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "store/use-app-store";
+import { User } from "models/user";
 
 interface Props {}
 
@@ -18,7 +20,8 @@ const UserMenu = (props: Props) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const rentModal = useRendModal();
-
+  const { useGetAllData } = useAppStore();
+  const { data: currentUser, refetch } = useGetAllData("user", "user");
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
@@ -40,12 +43,14 @@ const UserMenu = (props: Props) => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <div
-          onClick={onRent}
-          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-        >
-          Redotel your home
-        </div>
+        {(currentUser as User)?.role === "admin" && (
+          <div
+            onClick={onRent}
+            className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+          >
+            Redotel your home
+          </div>
+        )}
         <div
           onClick={toggleOpen}
           className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
@@ -57,8 +62,8 @@ const UserMenu = (props: Props) => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
-          <div className="flex flex-col cursor-pointer">
+        <div className="absolute rounded-xl shadow-md bg-white overflow-hidden right-0 top-12 text-sm">
+          <div className="flex flex-col cursor-pointer w-auto">
             {token === null ? (
               <>
                 <MenuItem label="Login" onClick={loginModal.onOpen} />
@@ -74,15 +79,19 @@ const UserMenu = (props: Props) => {
                   label="My favorites"
                   onClick={() => router.push("/favourites")}
                 />
-                <MenuItem
-                  label="My reservations"
-                  onClick={() => router.push("/reservations")}
-                />
-                <MenuItem
-                  label="My properties"
-                  onClick={() => router.push("/properties")}
-                />
-                <MenuItem label="Rent my home" onClick={onRent} />
+                {(currentUser as User)?.role === "admin" && (
+                  <>
+                    <MenuItem
+                      label="My reservations"
+                      onClick={() => router.push("/reservations")}
+                    />
+                    <MenuItem
+                      label="My properties"
+                      onClick={() => router.push("/properties")}
+                    />
+                    <MenuItem label="Create my home" onClick={onRent} />
+                  </>
+                )}
                 <hr />
                 <MenuItem label="Logout" onClick={handleLogOut} />
               </>

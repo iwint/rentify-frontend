@@ -14,6 +14,8 @@ import { POST_API } from "api/api";
 import useLoginModal from "hooks/use-login-modal";
 import { User } from "models/user";
 import { useGoogleLogin } from "@react-oauth/google";
+import RadioButtonSelect from "@components/inputs/radio-button-select";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -21,7 +23,7 @@ const LoginModal = (props: Props) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -50,6 +52,7 @@ const LoginModal = (props: Props) => {
         await POST_API("auth/sign-in", payload).then(async (res: any) => {
           await localStorage.setItem("user_id", res?.user_id);
           await localStorage.setItem("token", res?.token);
+
           toast.success("Logged in successfully");
         });
       })
@@ -63,6 +66,10 @@ const LoginModal = (props: Props) => {
         await localStorage.setItem("user_id", res?.user_id);
         await localStorage.setItem("token", res?.token);
         toast.success("Logged in successfully");
+        if (res?.role === "admin") {
+          router.push("/properties");
+          loginModal.onClose();
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => loginModal.onClose());
@@ -88,6 +95,23 @@ const LoginModal = (props: Props) => {
         label="Password"
         required
       />
+      {/* <RadioButtonSelect
+        errors={errors}
+        id="role"
+        label="Role"
+        options={[
+          {
+            value: "user",
+            label: "User",
+          },
+          {
+            value: "admin",
+            label: "Admin",
+          },
+        ]}
+        register={register}
+        required
+      /> */}
     </div>
   );
 

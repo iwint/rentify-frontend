@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Modal from "./modal";
 import useRendModal from "hooks/use-rental-modal";
 import Header from "@components/common/header";
@@ -12,9 +12,11 @@ import Counter from "@components/inputs/counter";
 import StepWrapper from "@components/common/step-wrapper";
 import ImageUpload from "@components/inputs/image-uplod";
 import Input from "@components/inputs/input";
-import { POST_API } from "api/api";
+import { POST_API, PUT_API } from "api/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Listing } from "models/listing";
+import { useAppStore } from "store/use-app-store";
 
 type Props = {};
 
@@ -30,9 +32,10 @@ enum STEPS {
 const RentModal = (props: Props) => {
   const router = useRouter();
   const rentModal = useRendModal();
+  const { useGetAllData } = useAppStore();
   const [step, setStep] = React.useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = React.useState(false);
-  
+  const { refetch } = useGetAllData("user/properties", "properties");
   const {
     register,
     handleSubmit,
@@ -43,16 +46,24 @@ const RentModal = (props: Props) => {
   } = useForm<FieldValues>({
     defaultValues: {
       category: "",
-      location: null,
-      guest_count: 1,
-      room_count: 1,
-      bathroom_count: 1,
-      image_src: null,
-      price: 1,
+      location: "",
+      guest_count: 0,
+      room_count: 0,
+      bathroom_count: 0,
+      image_src: "",
       title: "",
       description: "",
+      price: 0,
     },
   });
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldValidate: true,
+      shouldTouch: true,
+    });
+  };
 
   const category = watch("category");
   const location = watch("location");
@@ -68,13 +79,6 @@ const RentModal = (props: Props) => {
       }),
     [location]
   );
-  const setCustomValue = (id: string, value: any) => {
-    setValue(id, value, {
-      shouldDirty: true,
-      shouldValidate: true,
-      shouldTouch: true,
-    });
-  };
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -95,21 +99,46 @@ const RentModal = (props: Props) => {
       return onNext();
     }
     setIsLoading(true);
-    await POST_API("listings", payload)
-      .then((res: any) => {
-        console.log(res.data);
-        toast.success("Listing Created!");
-        router.refresh();
-        reset();
-        setStep(STEPS.CATEGORY);
-        rentModal.onClose();
+    if (rentModal.data != null) {
+      await PUT_API(`listings/${rentModal.data?.listing_id}`, {
+        ...data,
+        listing_id: rentModal.data?.listing_id,
+        user_id: userId,
+        created_at: rentModal.data?.created_at,
       })
-      .catch((err) => {
-        toast.error("Error creating listing");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        .then((res: any) => {
+          console.log(res.data);
+          toast.success("Listing Edited!");
+          router.refresh();
+          reset();
+          setStep(STEPS.CATEGORY);
+          rentModal.setData(null);
+          rentModal.onClose();
+        })
+        .catch((err) => {
+          toast.error("Error editing listing");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      await POST_API("listings", payload)
+        .then((res: any) => {
+          console.log(res.data);
+          toast.success("Listing Created!");
+          router.refresh();
+          reset();
+          setStep(STEPS.CATEGORY);
+          rentModal.onClose();
+        })
+        .catch((err) => {
+          toast.error("Error creating listing");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    refetch();
   };
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
@@ -150,7 +179,7 @@ const RentModal = (props: Props) => {
       >
         <CountrySelect
           onChange={(value) => setCustomValue("location", value)}
-          value={location}
+          value={location as any}
         />
         <Map center={location?.latlng} />
       </StepWrapper>
@@ -248,15 +277,22 @@ const RentModal = (props: Props) => {
     );
   }
 
+  const handleClose = useCallback(async () => {
+    if (rentModal.data != null) {
+      await rentModal.setData(null);
+    }
+    rentModal.onClose();
+  }, [rentModal]);
+
   return (
     <Modal
       actionLabel={actionLabel}
       secondaryLabel={secondaryActionLabel}
       isOpen={rentModal.isOpen}
-      onClose={rentModal.onClose}
+      onClose={handleClose}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       onSubmit={handleSubmit(onSubmit)}
-      title="Rent your home"
+      title={rentModal.data != null ? "Edit your home" : "Rent your home"}
       body={bodyContent}
     />
   );

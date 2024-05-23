@@ -2,10 +2,12 @@
 import Button from "@components/buttons/button";
 import HeartButton from "@components/buttons/heart-button";
 import { format } from "date-fns";
+import useRendModal from "hooks/use-rental-modal";
 import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
+import { MdOutlineEdit } from "react-icons/md";
 
 interface ListingCardProps {
   currentUser?: User | null;
@@ -15,6 +17,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
+  isEditable?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -25,9 +28,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   onAction,
   reservation,
+  isEditable,
 }) => {
   const router = useRouter();
-
+  const { setData, onOpen } = useRendModal();
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -53,6 +57,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
+  const handleEditModal = useCallback(
+    async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      await setData(data);
+      onOpen();
+    },
+    []
+  );
+
   return (
     <div
       onClick={() => router.push(`/listing/${data?.listing_id}`)}
@@ -70,10 +83,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
             className=" object-cover h-full w-full group-hover:scale-110 transition"
           />
           <div className="absolute top-3 right-3">
-            <HeartButton
-              listingId={data?.listing_id}
-              currentUser={currentUser}
-            />
+            {isEditable ? (
+              <button
+                onClick={handleEditModal}
+                className="relative hover:opacity-80 transition cursor-pointer"
+              >
+                <MdOutlineEdit size={28} className="fill-white " />
+              </button>
+            ) : (
+              <HeartButton
+                listingId={data?.listing_id}
+                currentUser={currentUser}
+              />
+            )}
           </div>
         </div>
         <div className="font-semibold text-lg">
