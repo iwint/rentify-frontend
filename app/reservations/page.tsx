@@ -1,5 +1,5 @@
-import ReservationsClient from "@components/reservations/reservations-client";
 import React from "react";
+import ReservationsClient from "../components/reservations/reservations-client";
 
 const Reservations = () => {
   return <ReservationsClient />;

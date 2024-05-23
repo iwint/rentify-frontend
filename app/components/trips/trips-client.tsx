@@ -1,15 +1,15 @@
 "use client";
-import ClientOnly from "@components/client-only";
-import Container from "@components/common/container";
-import EmptyState from "@components/common/empty-state";
-import Header from "@components/common/header";
-import ListingCard from "@components/listings/listing-card";
-import { DELETE_API } from "api/api";
-import { User } from "models/user";
+import { DELETE_API } from "@/app/api/api";
+import { User } from "@/app/models/user";
+import { useAppStore } from "@/app/store/use-app-store";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useAppStore } from "store/use-app-store";
+import ClientOnly from "../client-only";
+import EmptyState from "../common/empty-state";
+import Container from "../common/container";
+import Header from "../common/header";
+import ListingCard from "../listings/listing-card";
 
 interface TripsClientProps {}
 

@@ -1,5 +1,5 @@
-import PropertiesClient from "@components/properties/properties-client";
 import React from "react";
+import PropertiesClient from "../components/properties/properties-client";
 
 interface PropertiesProps {}
 
