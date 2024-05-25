@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
-import ListingCard from "./ListingCard";
-import { useParams, useSearchParams } from "next/navigation";
-import qs from "query-string";
-import { useAppStore } from "@/app/store/useAppStore";
 import { Listing } from "@/app/models/listing";
-import ClientOnly from "../ClientOnly";
-import EmptyState from "../common/EmptyState";
-import Container from "../common/Container";
 import { User } from "@/app/models/user";
+import { useAppStore } from "@/app/store/useAppStore";
+import { useSearchParams } from "next/navigation";
+import qs from "query-string";
+import ClientOnly from "../ClientOnly";
+import Container from "../common/Container";
+import EmptyState from "../common/EmptyState";
+import ListingCard from "./ListingCard";
 type Props = {};
 
 const Listings = (props: Props) => {
