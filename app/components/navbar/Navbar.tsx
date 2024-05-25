@@ -1,11 +1,11 @@
 "use client";
 
-import Container from "@components/common/Container";
 import React from "react";
 import { Logo } from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import Categories from "./categories";
+import Container from "../common/Container";
+import Categories from "./Categories";
 
 type Props = {};
 

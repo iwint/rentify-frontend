@@ -1,8 +1,9 @@
 "use client";
-import HeartButton from "@components/buttons/HeartButton";
-import Header from "@components/common/Header";
-import { User } from "models/user";
+
+import { User } from "@/app/models/user";
 import React from "react";
+import Header from "../common/Header";
+import HeartButton from "../buttons/HeartButton";
 
 interface ListingHeaderProps {
   title: string;

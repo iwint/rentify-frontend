@@ -1,17 +1,15 @@
-import ClientOnly from "@components/ClientOnly";
-import Navbar from "@components/navbar/Navbar";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
-import ToasterProvider from "providers/ToastProvider";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import Providers from "providers/QueryProvider";
-
-//Modals
-import RegisterModal from "@components/modals/RegisterModal";
-import LoginModal from "@components/modals/LoginModal";
-import RentModal from "@components/modals/RentalModal";
-import QueryPageProvider from "providers/QueryPageProvider";
+import Providers from "./providers/QueryProvider";
+import ClientOnly from "./components/ClientOnly";
+import ToasterProvider from "./providers/ToastProvider";
+import RegisterModal from "./components/modals/RegisterModal";
+import RentModal from "./components/modals/RentalModal";
+import LoginModal from "./components/modals/LoginModal";
+import Navbar from "./components/navbar/Navbar";
+import QueryPageProvider from "./providers/QueryPageProvider";
 
 export const metadata: Metadata = {
   title: "Red hotel Booking App",

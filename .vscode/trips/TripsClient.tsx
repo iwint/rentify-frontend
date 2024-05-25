@@ -6,11 +6,11 @@ import { useAppStore } from "@/app/store/useAppStore";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import ClientOnly from "../ClientOnly";
-import EmptyState from "../common/EmptyState";
-import Container from "../common/Container";
-import Header from "../common/Header";
-import ListingCard from "../listings/ListingCard";
+import ClientOnly from "../../app/components/ClientOnly";
+import EmptyState from "../../app/components/common/EmptyState";
+import Container from "../../app/components/common/Container";
+import Header from "../../app/components/common/Header";
+import ListingCard from "../../app/components/listings/ListingCard";
 
 interface TripsClientProps {}
 

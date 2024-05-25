@@ -1,16 +1,17 @@
 "use client";
-import Avatar from "@components/common/Avatar";
 import React, { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import MenuItem from "./MenuItem";
 
 //custom-hooks
-import useRegisterModal from "hooks/useRegisterModal";
-import useLoginModal from "hooks/useLoginModal";
-import useRendModal from "hooks/useRentModal";
+
 import { useRouter } from "next/navigation";
-import { useAppStore } from "store/useAppStore";
-import { User } from "models/user";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import useRendModal from "@/app/hooks/useRentModal";
+import { useAppStore } from "@/app/store/useAppStore";
+import { User } from "@/app/models/user";
+import Avatar from "../common/Avatar";
 
 interface Props {}
 

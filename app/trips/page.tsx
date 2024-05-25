@@ -1,5 +1,5 @@
-import TripsClient from "@components/trips/TripsClient";
 import React from "react";
+import TripsClient from "../components/trips/TripsClient";
 
 const Trips = () => {
   return <TripsClient />;

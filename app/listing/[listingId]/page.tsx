@@ -1,4 +1,4 @@
-import ListingSingleView from "@components/listings/ListingSingleView";
+import ListingSingleView from "@/app/components/listings/ListingSingleView";
 
 const ListingPage = () => {
   return <ListingSingleView />;
