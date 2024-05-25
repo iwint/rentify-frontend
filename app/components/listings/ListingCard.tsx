@@ -1,8 +1,8 @@
 "use client";
-import Button from "@components/buttons/button";
-import HeartButton from "@components/buttons/heart-button";
+import Button from "@components/buttons/Button";
+import HeartButton from "@components/buttons/HeartButton";
 import { format } from "date-fns";
-import useRendModal from "hooks/use-rental-modal";
+import useRendModal from "hooks/useRentModal";
 import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";

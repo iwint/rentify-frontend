@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Button from "../buttons/button";
-import Header from "./header";
+import Button from "../buttons/Button";
+import Header from "./Header";
 
 interface EmptyStateProps {
   title?: string;

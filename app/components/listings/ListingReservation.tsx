@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@components/buttons/button";
-import Calender from "@components/inputs/calender";
+import Button from "@components/buttons/Button";
+import Calender from "@components/inputs/Calender";
 import React from "react";
 import { Range } from "react-date-range";
 

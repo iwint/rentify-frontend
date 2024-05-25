@@ -1,19 +1,18 @@
 "use client";
-import Container from "@components/common/container";
-import { categories } from "@components/navbar/categories";
+import Container from "@components/common/Container";
 import { POST_API } from "api/api";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import useLoginModal from "hooks/use-login-modal";
+import useLoginModal from "hooks/useLoginModal";
 import { Listing } from "models/listing";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import toast from "react-hot-toast";
-import { useAppStore } from "store/use-app-store";
-import ListingInfo from "./lisiting-info";
-import ListingHeader from "./listing-header";
-import ListingReservation from "./listing-reservation";
+import ListingInfo from "./LisitingInfo";
+import ListingHeader from "./ListingHeader";
+import ListingReservation from "./ListingReservation";
+import { categories } from "@components/navbar/Categories";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -50,7 +49,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [reservations]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState<number>(parseInt(listing.price));
+  const [totalPrice, setTotalPrice] = useState<number>(
+    parseInt(listing?.price)
+  );
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {

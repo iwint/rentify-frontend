@@ -2,9 +2,9 @@ import { PUT_API } from "api/api";
 import { User } from "models/user";
 import { useCallback, useMemo } from "react";
 import toast from "react-hot-toast";
-import useLoginModal from "./use-login-modal";
+import useLoginModal from "./useLoginModal";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAppStore } from "store/use-app-store";
+import { useAppStore } from "store/useAppStore";
 
 interface useFavouriteProps {
     currentUser?: User | null;

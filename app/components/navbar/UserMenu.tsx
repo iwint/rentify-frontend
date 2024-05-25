@@ -1,15 +1,15 @@
 "use client";
-import Avatar from "@components/common/avatar";
+import Avatar from "@components/common/Avatar";
 import React, { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import MenuItem from "./menu-item";
+import MenuItem from "./MenuItem";
 
 //custom-hooks
-import useRegisterModal from "hooks/use-register-modal";
-import useLoginModal from "hooks/use-login-modal";
-import useRendModal from "hooks/use-rental-modal";
+import useRegisterModal from "hooks/useRegisterModal";
+import useLoginModal from "hooks/useLoginModal";
+import useRendModal from "hooks/useRentModal";
 import { useRouter } from "next/navigation";
-import { useAppStore } from "store/use-app-store";
+import { useAppStore } from "store/useAppStore";
 import { User } from "models/user";
 
 interface Props {}

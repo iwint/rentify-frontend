@@ -1,4 +1,4 @@
-import FavouritesClient from "@components/favourites/favourites-client";
+import FavouritesClient from "@components/favourites/FavouritesClient";
 import React from "react";
 
 interface FavouritesProps {}

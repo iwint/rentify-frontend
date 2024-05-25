@@ -1,16 +1,16 @@
 "use client";
 
-import ClientOnly from "@components/client-only";
-import Container from "@components/common/container";
-import EmptyState from "@components/common/empty-state";
-import Header from "@components/common/header";
-import ListingCard from "@components/listings/listing-card";
+import ClientOnly from "@components/ClientOnly";
+import Container from "@components/common/Container";
+import EmptyState from "@components/common/EmptyState";
+import Header from "@components/common/Header";
+import ListingCard from "@components/listings/ListingCard";
 import { DELETE_API } from "api/api";
 import { Listing } from "models/listing";
 import { User } from "models/user";
 import React, { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useAppStore } from "store/use-app-store";
+import { useAppStore } from "store/useAppStore";
 
 interface PropertiesClientProps {}
 

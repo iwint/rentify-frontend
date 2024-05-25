@@ -1,30 +1,34 @@
 "use client";
-import ClientOnly from "@components/client-only";
-import Container from "@components/common/container";
-import EmptyState from "@components/common/empty-state";
-import Header from "@components/common/header";
-import ListingCard from "@components/listings/listing-card";
+import ClientOnly from "@components/ClientOnly";
+import Container from "@components/common/Container";
+import EmptyState from "@components/common/EmptyState";
+import Header from "@components/common/Header";
+import ListingCard from "@components/listings/ListingCard";
 import { DELETE_API } from "api/api";
 import { User } from "models/user";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useAppStore } from "store/use-app-store";
+import { useAppStore } from "store/useAppStore";
 
-interface TripsClientProps {}
+interface ReservationsClientProps {}
 
-const TripsClient: React.FC<TripsClientProps> = () => {
+const ReservationsClient: React.FC<ReservationsClientProps> = ({}) => {
   const { useGetAllData } = useAppStore();
   const { data: currentUser } = useGetAllData("user", "user");
-  const { data: reservations, refetch } = useGetAllData(
-    `reservations/user/${(currentUser as User)?.user_id}`,
-    "reservations"
-  );
-  useEffect(() => {
-    refetch();
-  }, []);
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const { data: reservations, refetch } = useGetAllData(
+    `reservations/author/${(currentUser as User)?.user_id}`,
+    "reservations"
+  );
+
+  useEffect(() => {
+    if (currentUser) {
+      refetch();
+    }
+  }, [currentUser]);
+
   const onCancel = useCallback(
     (id: string) => {
       setDeletingId(id);
@@ -37,6 +41,9 @@ const TripsClient: React.FC<TripsClientProps> = () => {
         })
         .catch((err) => {
           toast.error("Failed to cancel reservation.");
+        })
+        .finally(() => {
+          setDeletingId(null);
         });
     },
     [router]
@@ -53,12 +60,12 @@ const TripsClient: React.FC<TripsClientProps> = () => {
     );
   }
 
-  if ((reservations as Array<any>)?.length === 0) {
+  if ((reservations as Array<any>)?.length === 0 || !reservations) {
     return (
       <ClientOnly>
         <EmptyState
-          title="No Trips"
-          subtitle="You haven't reserved any trips yet."
+          title="No Reservations"
+          subtitle="You have no reservations."
         />
       </ClientOnly>
     );
@@ -67,7 +74,7 @@ const TripsClient: React.FC<TripsClientProps> = () => {
   return (
     <ClientOnly>
       <Container>
-        <Header title="Trips" subtitle="Here are your upcoming trips." />
+        <Header title="Reservations" subtitle="Booking on your properties" />
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
           {(reservations as Array<any>)?.map((reservation) => {
             return (
@@ -75,11 +82,11 @@ const TripsClient: React.FC<TripsClientProps> = () => {
                 key={reservation.reservation_id}
                 data={reservation.listing}
                 reservation={reservation}
-                actionId={reservation.reservation_id}
                 onAction={onCancel}
-                disabled={deletingId === reservation.reservation_id}
-                actionLabel="Cancel reservation"
+                actionId={reservation.reservation_id}
+                actionLabel="Cancel guest reservation"
                 currentUser={currentUser as User}
+                disabled={deletingId === reservation.reservation_id}
               />
             );
           })}
@@ -89,4 +96,4 @@ const TripsClient: React.FC<TripsClientProps> = () => {
   );
 };
 
-export default TripsClient;
+export default ReservationsClient;

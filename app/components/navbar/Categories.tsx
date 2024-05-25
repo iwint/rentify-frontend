@@ -1,6 +1,6 @@
 "use client";
-import CategoryBox from "@components/common/category-box";
-import Container from "@components/common/container";
+import CategoryBox from "@components/common/CategoryBox";
+import Container from "@components/common/Container";
 import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
 import { BsSnow } from "react-icons/bs";

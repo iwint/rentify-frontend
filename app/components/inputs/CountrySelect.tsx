@@ -1,5 +1,5 @@
 "use client";
-import useCountries from "hooks/use-countries";
+import useCountries from "hooks/useCountries";
 import React from "react";
 import Select from "react-select";
 

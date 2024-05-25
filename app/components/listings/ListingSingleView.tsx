@@ -1,10 +1,10 @@
 "use client";
-import ClientOnly from "@components/client-only";
-import EmptyState from "@components/common/empty-state";
+import ClientOnly from "@components/ClientOnly";
+import EmptyState from "@components/common/EmptyState";
 import { User } from "models/user";
 import { useParams } from "next/navigation";
-import ListingClient from "./listing-client";
-import { useAppStore } from "store/use-app-store";
+import ListingClient from "./ListingClient";
+import { useAppStore } from "store/useAppStore";
 
 const ListingSingleView = () => {
   const { listingId } = useParams();

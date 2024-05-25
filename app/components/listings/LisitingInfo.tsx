@@ -1,8 +1,8 @@
 "use client";
-import Avatar from "@components/common/avatar";
+import Avatar from "@components/common/Avatar";
 import React from "react";
 import { IconType } from "react-icons";
-import ListingCategory from "./listing-category";
+import ListingCategory from "./ListingCategory";
 import dynamic from "next/dynamic";
 
 interface ListingInfoProps {
@@ -21,7 +21,7 @@ interface ListingInfoProps {
   roomCount: number;
 }
 
-const Map = dynamic(() => import("@components/common/map"), {
+const Map = dynamic(() => import("@components/common/Map"), {
   ssr: false,
 });
 

@@ -1,22 +1,20 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Modal from "./modal";
-import useRendModal from "hooks/use-rental-modal";
-import Header from "@components/common/header";
+import StepWrapper from "@components/common/StepWrapper";
+import CategoryInput from "@components/inputs/CategoryInput";
+import Counter from "@components/inputs/Counter";
+import CountrySelect from "@components/inputs/CountrySelect";
+import ImageUpload from "@components/inputs/ImageUpload";
+import Input from "@components/inputs/Input";
 import { categories } from "@components/navbar/categories";
-import CategoryInput from "@components/inputs/category-input";
-import { FieldValues, set, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "@components/inputs/country-select";
-import dynamic from "next/dynamic";
-import Counter from "@components/inputs/counter";
-import StepWrapper from "@components/common/step-wrapper";
-import ImageUpload from "@components/inputs/image-uplod";
-import Input from "@components/inputs/input";
 import { POST_API, PUT_API } from "api/api";
-import toast from "react-hot-toast";
+import useRendModal from "hooks/useRentModal";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { Listing } from "models/listing";
-import { useAppStore } from "store/use-app-store";
+import React, { useCallback, useMemo } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useAppStore } from "store/useAppStore";
+import Modal from "./Modal";
 
 type Props = {};
 
@@ -74,7 +72,7 @@ const RentModal = (props: Props) => {
 
   const Map = useMemo(
     () =>
-      dynamic(() => import("@components/common/map"), {
+      dynamic(() => import("@components/common/Map"), {
         ssr: false,
       }),
     [location]

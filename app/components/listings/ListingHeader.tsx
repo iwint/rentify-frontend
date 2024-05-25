@@ -1,6 +1,6 @@
 "use client";
-import HeartButton from "@components/buttons/heart-button";
-import Header from "@components/common/header";
+import HeartButton from "@components/buttons/HeartButton";
+import Header from "@components/common/Header";
 import { User } from "models/user";
 import React from "react";
 
