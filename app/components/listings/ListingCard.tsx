@@ -84,12 +84,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
           />
           <div className="absolute top-3 right-3">
             {isEditable ? (
-              <button
-                onClick={handleEditModal}
-                className="relative hover:opacity-80 transition cursor-pointer"
-              >
-                <MdOutlineEdit size={28} className="fill-white " />
-              </button>
+              // <button
+              //   onClick={handleEditModal}
+              //   className="relative hover:opacity-80 transition cursor-pointer"
+              // >
+              //   <MdOutlineEdit size={28} className="fill-white " />
+              // </button>
+              <button>Remove all filters</button>
             ) : (
               <HeartButton
                 listingId={data?.listing_id}

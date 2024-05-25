@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import Header from "./Header";
-import Button from "../buttons/Button";
 
 interface EmptyStateProps {
   title?: string;
@@ -30,11 +29,12 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       <Header title={title} subtitle={subtitle} center />
       <div className="w-48 mt-4">
         {showReset && (
-          <Button
-            outline
-            label="Remove all filters"
-            onClick={() => router.push("/")}
-          />
+          // <Button
+          //   outline
+          //   label="Remove all filters"
+          //   onClick={() => router.push("/")}
+          // />
+          <button>Remove all filters</button>
         )}
       </div>
     </div>
