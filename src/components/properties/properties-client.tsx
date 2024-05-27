@@ -1,16 +1,16 @@
 "use client";
 
-import { DELETE_API } from "@/app/api/api";
-import { useAppStore } from "@/app/store/use-app-store";
 import React, { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import ClientOnly from "../client-only";
 import EmptyState from "../common/empty-state";
-import { Listing } from "@/app/models/listing";
 import Container from "../common/container";
 import Header from "../common/header";
 import ListingCard from "../listings/listing-card";
-import { User } from "@/app/models/user";
+import { useAppStore } from "@/store/use-app-store";
+import { requestActions } from "@/api/request-actions";
+import { Listing } from "@/models/listing";
+import { User } from "@/models/user";
 
 interface PropertiesClientProps {}
 
@@ -20,6 +20,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({}) => {
     "user/properties",
     "properties"
   );
+  const { DELETE_API } = requestActions;
   const { data: currentUser } = useGetAllData("user", "user");
   const handleDeleteProperty = useCallback((id: string) => {
     DELETE_API(`listings/${id}`)

@@ -1,14 +1,14 @@
 "use client";
 
-import { Listing } from "@/app/models/listing";
-import { useAppStore } from "@/app/store/use-app-store";
 import React, { useEffect } from "react";
 import ClientOnly from "../client-only";
 import EmptyState from "../common/empty-state";
 import Container from "../common/container";
 import Header from "../common/header";
 import ListingCard from "../listings/listing-card";
-import { User } from "@/app/models/user";
+import { useAppStore } from "@/store/use-app-store";
+import { Listing } from "@/models/listing";
+import { User } from "@/models/user";
 
 interface FavouritesClientProps {}
 

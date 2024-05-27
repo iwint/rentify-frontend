@@ -1,8 +1,3 @@
-"use client";
-import { DELETE_API } from "@/app/api/api";
-import { User } from "@/app/models/user";
-import { useAppStore } from "@/app/store/use-app-store";
-import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ClientOnly from "../client-only";
@@ -10,18 +5,23 @@ import EmptyState from "../common/empty-state";
 import Container from "../common/container";
 import Header from "../common/header";
 import ListingCard from "../listings/listing-card";
+import { useAppStore } from "@/store/use-app-store";
+import { useNavigate } from "react-router-dom";
+import { User } from "@/models/user";
+import { requestActions } from "@/api/request-actions";
 
 interface ReservationsClientProps {}
 
 const ReservationsClient: React.FC<ReservationsClientProps> = ({}) => {
   const { useGetAllData } = useAppStore();
   const { data: currentUser } = useGetAllData("user", "user");
-  const router = useRouter();
+  const router = useNavigate();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: reservations, refetch } = useGetAllData(
     `reservations/author/${(currentUser as User)?.user_id}`,
     "reservations"
   );
+  const { DELETE_API } = requestActions;
 
   useEffect(() => {
     if (currentUser) {

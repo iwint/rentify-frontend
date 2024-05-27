@@ -2,7 +2,7 @@ import React from "react";
 import { IconType } from "react-icons";
 import ListingCategory from "./listing-category";
 import Avatar from "../common/avatar";
-import Map from "../common/map";
+import Map from "../common/Map";
 
 interface ListingInfoProps {
   user: any;

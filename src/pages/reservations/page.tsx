@@ -1,8 +1,13 @@
 import React from "react";
-import ReservationsClient from "../components/reservations/reservations-client";
+import PageLayout from "@/layouts/page-layout";
+import ReservationsClient from "@/components/reservations/reservations-client";
 
 const Reservations = () => {
-  return <ReservationsClient />;
+  return (
+    <PageLayout>
+      <ReservationsClient />
+    </PageLayout>
+  );
 };
 
 export default Reservations;

@@ -1,10 +1,15 @@
+import FavouritesClient from "@/components/favourites/favourites-client";
+import PageLayout from "@/layouts/page-layout";
 import React from "react";
-import FavouritesClient from "../components/favourites/favourites-client";
 
 interface FavouritesProps {}
 
 const Favourites: React.FC<FavouritesProps> = ({}) => {
-  return <FavouritesClient />;
+  return (
+    <PageLayout>
+      <FavouritesClient />
+    </PageLayout>
+  );
 };
 
 export default Favourites;
