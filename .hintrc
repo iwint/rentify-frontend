@@ -1,8 +1,7 @@
 {
-  "extends": [
-    "development"
-  ],
+  "extends": ["development"],
   "hints": {
+    "typescript-config/consistent-casing": "off",
     "axe/name-role-value": [
       "default",
       {
@@ -14,6 +13,7 @@
       {
         "label": "off"
       }
-    ]
+    ],
+    "no-inline-styles": "off"
   }
 }
