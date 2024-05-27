@@ -44,48 +44,42 @@ const TripsClient: React.FC<TripsClientProps> = () => {
 
   if (!currentUser) {
     return (
-      <ClientOnly>
-        <EmptyState
-          title="Unauthorized"
-          subtitle="You need to be logged in to view this page."
-        />
-      </ClientOnly>
+      <EmptyState
+        title="Unauthorized"
+        subtitle="You need to be logged in to view this page."
+      />
     );
   }
 
   if ((reservations as Array<any>)?.length === 0) {
     return (
-      <ClientOnly>
-        <EmptyState
-          title="No Trips"
-          subtitle="You haven't reserved any trips yet."
-        />
-      </ClientOnly>
+      <EmptyState
+        title="No Trips"
+        subtitle="You haven't reserved any trips yet."
+      />
     );
   }
 
   return (
-    <ClientOnly>
-      <Container>
-        <Header title="Trips" subtitle="Here are your upcoming trips." />
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
-          {(reservations as Array<any>)?.map((reservation) => {
-            return (
-              <ListingCard
-                key={reservation.reservation_id}
-                data={reservation.listing}
-                reservation={reservation}
-                actionId={reservation.reservation_id}
-                onAction={onCancel}
-                disabled={deletingId === reservation.reservation_id}
-                actionLabel="Cancel reservation"
-                currentUser={currentUser as User}
-              />
-            );
-          })}
-        </div>
-      </Container>
-    </ClientOnly>
+    <Container>
+      <Header title="Trips" subtitle="Here are your upcoming trips." />
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
+        {(reservations as Array<any>)?.map((reservation) => {
+          return (
+            <ListingCard
+              key={reservation.reservation_id}
+              data={reservation.listing}
+              reservation={reservation}
+              actionId={reservation.reservation_id}
+              onAction={onCancel}
+              disabled={deletingId === reservation.reservation_id}
+              actionLabel="Cancel reservation"
+              currentUser={currentUser as User}
+            />
+          );
+        })}
+      </div>
+    </Container>
   );
 };
 

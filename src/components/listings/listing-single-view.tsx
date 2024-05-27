@@ -22,23 +22,17 @@ const ListingSingleView = () => {
   );
 
   if (isError || isLoading) {
-    return (
-      <ClientOnly>
-        <EmptyState />
-      </ClientOnly>
-    );
+    return <EmptyState />;
   }
 
   return (
-    <ClientOnly>
-      <ListingClient
-        reservations={
-          reservationDetails != null ? (reservationDetails as Array<any>) : []
-        }
-        listing={data as any}
-        currentUser={userDetails as User}
-      />
-    </ClientOnly>
+    <ListingClient
+      reservations={
+        reservationDetails != null ? (reservationDetails as Array<any>) : []
+      }
+      listing={data as any}
+      currentUser={userDetails as User}
+    />
   );
 };
 

@@ -51,48 +51,42 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({}) => {
 
   if (!currentUser) {
     return (
-      <ClientOnly>
-        <EmptyState
-          title="Unauthorized"
-          subtitle="You need to be logged in to view this page."
-        />
-      </ClientOnly>
+      <EmptyState
+        title="Unauthorized"
+        subtitle="You need to be logged in to view this page."
+      />
     );
   }
 
   if ((reservations as Array<any>)?.length === 0 || !reservations) {
     return (
-      <ClientOnly>
-        <EmptyState
-          title="No Reservations"
-          subtitle="You have no reservations."
-        />
-      </ClientOnly>
+      <EmptyState
+        title="No Reservations"
+        subtitle="You have no reservations."
+      />
     );
   }
 
   return (
-    <ClientOnly>
-      <Container>
-        <Header title="Reservations" subtitle="Booking on your properties" />
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
-          {(reservations as Array<any>)?.map((reservation) => {
-            return (
-              <ListingCard
-                key={reservation.reservation_id}
-                data={reservation.listing}
-                reservation={reservation}
-                onAction={onCancel}
-                actionId={reservation.reservation_id}
-                actionLabel="Cancel guest reservation"
-                currentUser={currentUser as User}
-                disabled={deletingId === reservation.reservation_id}
-              />
-            );
-          })}
-        </div>
-      </Container>
-    </ClientOnly>
+    <Container>
+      <Header title="Reservations" subtitle="Booking on your properties" />
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
+        {(reservations as Array<any>)?.map((reservation) => {
+          return (
+            <ListingCard
+              key={reservation.reservation_id}
+              data={reservation.listing}
+              reservation={reservation}
+              onAction={onCancel}
+              actionId={reservation.reservation_id}
+              actionLabel="Cancel guest reservation"
+              currentUser={currentUser as User}
+              disabled={deletingId === reservation.reservation_id}
+            />
+          );
+        })}
+      </div>
+    </Container>
   );
 };
 

@@ -33,6 +33,7 @@ const RentModal = (props: Props) => {
   const [step, setStep] = React.useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = React.useState(false);
   const { refetch } = useGetAllData("user/properties", "properties");
+  const { refetch: refetchListings } = useGetAllData("listings", "listings");
   const { PUT_API, POST_API } = requestActions;
   const {
     register,
@@ -99,9 +100,9 @@ const RentModal = (props: Props) => {
         .then((res: any) => {
           console.log(res.data);
           toast.success("Listing Edited!");
-          router("/");
           reset();
           setStep(STEPS.CATEGORY);
+          router("/");
           rentModal.setData(null);
           rentModal.onClose();
         })
@@ -118,6 +119,7 @@ const RentModal = (props: Props) => {
           toast.success("Listing Created!");
           router("/");
           reset();
+          refetchListings();
           setStep(STEPS.CATEGORY);
           rentModal.onClose();
         })

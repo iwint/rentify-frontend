@@ -48,7 +48,7 @@ const UserMenu = (props: Props) => {
             onClick={onRent}
             className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
           >
-            Redotel your home
+            Create your home
           </div>
         )}
         <div

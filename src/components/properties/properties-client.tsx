@@ -37,33 +37,29 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({}) => {
 
   if ((properties as Array<Listing>)?.length === 0 || !properties) {
     return (
-      <ClientOnly>
-        <EmptyState
-          subtitle="You haven't added any properties yet."
-          title="No Properties"
-        />
-      </ClientOnly>
+      <EmptyState
+        subtitle="You haven't added any properties yet."
+        title="No Properties"
+      />
     );
   }
 
   return (
-    <ClientOnly>
-      <Container>
-        <Header title="Properties" subtitle="Your properties." />
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
-          {(properties as Array<Listing>)?.map((listing) => (
-            <ListingCard
-              isEditable
-              data={listing}
-              currentUser={currentUser as User}
-              actionId={listing.listing_id}
-              actionLabel="Delete property"
-              onAction={handleDeleteProperty}
-            />
-          ))}
-        </div>
-      </Container>
-    </ClientOnly>
+    <Container>
+      <Header title="Properties" subtitle="Your properties." />
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
+        {(properties as Array<Listing>)?.map((listing) => (
+          <ListingCard
+            isEditable
+            data={listing}
+            currentUser={currentUser as User}
+            actionId={listing.listing_id}
+            actionLabel="Delete property"
+            onAction={handleDeleteProperty}
+          />
+        ))}
+      </div>
+    </Container>
   );
 };
 
