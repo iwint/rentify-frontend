@@ -18,7 +18,6 @@ interface CountrySelectProps {
 
 const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
   const { getAll } = useCountries();
-  console.log(getAll());
 
   return (
     <Select
@@ -31,7 +30,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
         <div className="flex flex-row items-center gap-3">
           <div>{option.flag}</div>
           <div>
-            {option.label},{" "}
+            {option.label},
             <span className="text-neutral-500 ml-1">{option.region}</span>
           </div>
         </div>

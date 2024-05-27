@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ListingCard from "./listing-card";
 import qs from "query-string";
 import ClientOnly from "../client-only";
@@ -7,18 +7,21 @@ import EmptyState from "../common/empty-state";
 import Container from "../common/container";
 import { User } from "@/models/user";
 import { useAppStore } from "@/store/use-app-store";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 type Props = {};
 
 const Listings = (props: Props) => {
   const { useGetAllData } = useAppStore();
   const { data: user, isError } = useGetAllData("user", "user");
   const listings = useGetAllData("listings", "listings");
-  const params = useParams();
-  const category = qs.parse(params.toString())?.category;
+  const location = useLocation();
+  const category = qs.parse(location.search).category as string;
+  console.log(category);
 
   const data = () => {
     if (category) {
+      console.log("CAT", category);
+
       return (listings.data as Array<Listing>)?.filter(
         (item: Listing) => item.category === category
       );
@@ -26,6 +29,10 @@ const Listings = (props: Props) => {
       return listings.data as Array<Listing>;
     }
   };
+
+  useEffect(() => {
+    listings.refetch();
+  }, [category]);
 
   if (listings.isError || listings.data === undefined || data()?.length === 0) {
     return (

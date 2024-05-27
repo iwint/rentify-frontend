@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     hmr: {
-      overlay: false
+      overlay: true
     }
   }
 })

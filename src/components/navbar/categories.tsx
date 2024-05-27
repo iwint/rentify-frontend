@@ -18,6 +18,7 @@ import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBox from "../common/category-box";
 import Container from "../common/container";
+import qs from "query-string";
 
 type Props = {};
 
@@ -100,9 +101,9 @@ export const categories = [
 ];
 
 function Categories({}: Props) {
-  const params = useParams();
-  const category = params?.category;
-  const pathname = useLocation().pathname;
+  const location = useLocation();
+  const category = qs.parse(location.search).category as string;
+  const pathname = location.pathname;
   const isMainPage = pathname === "/";
   if (!isMainPage) return null;
   return (

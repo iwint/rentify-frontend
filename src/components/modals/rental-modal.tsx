@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useCallback, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -173,7 +171,7 @@ const RentModal = (props: Props) => {
           onChange={(value) => setCustomValue("location", value)}
           value={location as any}
         />
-        <Map center={location?.latlng} />
+        <Map center={location.latlng} />
       </StepWrapper>
     );
   }

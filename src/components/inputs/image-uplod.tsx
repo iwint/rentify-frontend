@@ -37,7 +37,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
     >
       {value ? (
         <div className="absolute inset-0 w-full h-full">
-          <img src={value} alt="preview" style={{ objectFit: "cover" }} />
+          <img
+            src={value}
+            alt="preview"
+            style={{ objectFit: "cover", height: "100%", width: "100%" }}
+          />
         </div>
       ) : (
         <>
