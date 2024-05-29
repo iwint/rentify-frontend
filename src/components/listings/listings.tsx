@@ -8,6 +8,7 @@ import Container from "../common/container";
 import { User } from "@/models/user";
 import { useAppStore } from "@/store/use-app-store";
 import { useLocation } from "react-router-dom";
+import Loader from "../common/loader";
 type Props = {};
 
 const Listings = (props: Props) => {
@@ -40,6 +41,7 @@ const Listings = (props: Props) => {
 
   return (
     <Container>
+      <Loader isLoading={listings.isLoading} />
       <div className="pt-[10%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-8">
         {data()?.map((item) => (
           <ListingCard
